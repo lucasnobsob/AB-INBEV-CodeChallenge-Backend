@@ -14,7 +14,7 @@ namespace AB_INBEV.Application.Services
     public class EmployeeAppService : IEmployeeAppService
     {
         private readonly IMapper _mapper;
-        private readonly IEmployeeRepository _customerRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IEventStoreRepository _eventStoreRepository;
         private readonly IMediatorHandler Bus;
 
@@ -24,25 +24,25 @@ namespace AB_INBEV.Application.Services
                                   IEventStoreRepository eventStoreRepository)
         {
             _mapper = mapper;
-            _customerRepository = customerRepository;
+            _employeeRepository = customerRepository;
             Bus = bus;
             _eventStoreRepository = eventStoreRepository;
         }
 
         public IEnumerable<EmployeeViewModel> GetAll()
         {
-            return _customerRepository.GetAll().ProjectTo<EmployeeViewModel>(_mapper.ConfigurationProvider);
+            return _employeeRepository.GetAll().ProjectTo<EmployeeViewModel>(_mapper.ConfigurationProvider);
         }
 
         public IEnumerable<EmployeeViewModel> GetAll(int skip, int take)
         {
-            return _customerRepository.GetAll(new EmployeeFilterPaginatedSpecification(skip, take))
+            return _employeeRepository.GetAll(new EmployeeFilterPaginatedSpecification(skip, take))
                 .ProjectTo<EmployeeViewModel>(_mapper.ConfigurationProvider);
         }
 
         public EmployeeViewModel GetById(Guid id)
         {
-            return _mapper.Map<EmployeeViewModel>(_customerRepository.GetById(id));
+            return _mapper.Map<EmployeeViewModel>(_employeeRepository.GetById(id));
         }
 
         public void Register(EmployeeViewModel customerViewModel)

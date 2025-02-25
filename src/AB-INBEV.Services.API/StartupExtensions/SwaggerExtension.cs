@@ -13,10 +13,10 @@ namespace AB_INBEV.Services.Api.StartupExtensions
                     c.SwaggerDoc("v1", new OpenApiInfo
                     {
                         Version = "v1",
-                        Title = "ASPNET Core DDD Project",
+                        Title = "AB-INBEV Code Challenge",
                         Description = "",
-                        Contact = new OpenApiContact { Name = "Xinh Nguyen", Email = "nguyentrucxjnh@gmail.com", Url = new Uri("https://nguyentrucxinh.github.io/") },
-                        License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://github.com/nguyentrucxinh/AspNetCore-DDD/blob/master/LICENSE") }
+                        Contact = new OpenApiContact { Name = "Lucas Nóbrega Sobrinho", Email = "lucas.ns.93@hotmail.com", Url = new Uri("https://github.com/lucasnobsob") },
+                        License = new OpenApiLicense() { Name = "GNU", Url = new Uri("https://github.com/lucasnobsob/AB-INBEV-CodeChallenge/blob/main/LICENSE") }
                     });
 
                     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

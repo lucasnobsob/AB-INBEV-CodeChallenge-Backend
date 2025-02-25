@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AB_INBEV.Services.Api.Controllers
 {
+    [Route("role")]
     public class RoleController : ApiController
     {
         private readonly RoleManager<IdentityRole> _roleManager;

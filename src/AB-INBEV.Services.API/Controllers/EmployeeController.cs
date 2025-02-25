@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AB_INBEV.Services.Api.Controllers
 {
     [Authorize]
+    [Route("employees")]
     public class EmployeeController : ApiController
     {
         private readonly IEmployeeAppService _employeeAppService;
@@ -25,7 +26,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("customer-management")]
+        [Route("management")]
         public IActionResult Get()
         {
             return Response(_employeeAppService.GetAll());
@@ -33,7 +34,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("customer-management/{id:guid}")]
+        [Route("management/{id:guid}")]
         public IActionResult Get(Guid id)
         {
             var customerViewModel = _employeeAppService.GetById(id);
@@ -43,7 +44,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpPost]
         [Authorize(Policy = "CanWriteCustomerData", Roles = Roles.Admin)]
-        [Route("customer-management")]
+        [Route("management")]
         public IActionResult Post([FromBody] EmployeeViewModel customerViewModel)
         {
             if (!ModelState.IsValid)
@@ -59,7 +60,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpPut]
         [Authorize(Policy = "CanWriteCustomerData", Roles = Roles.Admin)]
-        [Route("customer-management")]
+        [Route("management")]
         public IActionResult Put([FromBody] EmployeeViewModel customerViewModel)
         {
             if (!ModelState.IsValid)
@@ -75,7 +76,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpDelete]
         [Authorize(Policy = "CanRemoveCustomerData", Roles = Roles.Admin)]
-        [Route("customer-management")]
+        [Route("management")]
         public IActionResult Delete(Guid id)
         {
             _employeeAppService.Remove(id);
@@ -85,7 +86,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("customer-management/history/{id:guid}")]
+        [Route("management/history/{id:guid}")]
         public IActionResult History(Guid id)
         {
             var customerHistoryData = _employeeAppService.GetAllHistory(id);
@@ -94,7 +95,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("customer-management/pagination")]
+        [Route("management/pagination")]
         public IActionResult Pagination(int skip, int take)
         {
             return Response(_employeeAppService.GetAll(skip, take));

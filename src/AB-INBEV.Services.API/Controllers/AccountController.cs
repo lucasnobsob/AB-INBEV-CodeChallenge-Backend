@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 namespace AB_INBEV.Services.Api.Controllers
 {
     [Authorize]
+    [Route("account")]
     public class AccountController : ApiController
     {
         private readonly UserManager<ApplicationUser> _userManager;
