@@ -33,9 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AB-INBEV.Application", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AB-INBEV.Services.API", "src\AB-INBEV.Services.API\AB-INBEV.Services.API.csproj", "{2215B4E0-63E6-479F-9A6F-77F1269C20F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AB-INBEV.Application.UnitTests", "tests\AB-INBEV.Application.UnitTests\AB-INBEV.Application.UnitTests.csproj", "{229948AF-25AF-448F-85B7-B78F047186A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AB-INBEV.Application.UnitTests", "tests\AB-INBEV.Application.UnitTests\AB-INBEV.Application.UnitTests.csproj", "{229948AF-25AF-448F-85B7-B78F047186A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AB-INBEV.Services.API.IntegrationTests", "tests\AB-INBEV.Services.API.IntegrationTests\AB-INBEV.Services.API.IntegrationTests.csproj", "{E27B6F16-1C29-49F6-979B-86F043C0F7F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AB-INBEV.Services.API.IntegrationTests", "tests\AB-INBEV.Services.API.IntegrationTests\AB-INBEV.Services.API.IntegrationTests.csproj", "{E27B6F16-1C29-49F6-979B-86F043C0F7F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
