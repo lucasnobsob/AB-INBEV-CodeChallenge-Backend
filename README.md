@@ -1,24 +1,5 @@
 # Diagram
 
-## Overview
-![](/Docs/overview.png)
-
-## Architecture
-![](/Docs/architecture.png)
-
-## Dependencies
-![](/Docs/dependencies.jpg)
-
-## Project dependencies
-![](/Docs/project-dependencies.jpg)
-
-## Code flow
-![](/Docs/flowchart.png)
-![](/Docs/code-flow.jpg)
-
-## Repository & Unit Of Work
-![](/Docs/custom-repo-versus-db-context.png)
-
 # Techical Stack
 - ASP.NET Core 5.0 (with .NET Core 5.0)
 - ASP.NET WebApi Core
