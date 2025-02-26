@@ -1,6 +1,6 @@
-# Diagram
+# AB-INBEV-CodeChallenge-Backend
 
-# Techical Stack
+## Techical Stack
 - .NET 8.0
 - .NET WebApi
 - .NET Identity
@@ -17,7 +17,7 @@
 - Polly
 - Refit
 
-# Design Patterns
+## Design Patterns
 - Domain Driven Design
 - Domain Events
 - Domain Notification
@@ -31,15 +31,15 @@
 - Specification Pattern
 - Options Pattern
 
-# How to run
+## How to run
 - Visual Studio: `Just run`
 - VSCode: `Just run`
 - Terminal: `dotnet run --project src/DDD.Services.Api/DDD.Services.Api.csproj --launch-profile Dev`
 
-# Testing
+## Testing
 - Terminal: `dotnet test`
 
-# Docker
+## Docker
 
 ```sh
 docker build -t aspnetcore-docker-image .
@@ -49,9 +49,9 @@ docker run -d -p 3000:80 --name aspnetcore-docker-container aspnetcore-docker-im
 
 - http://localhost:3000/
 
-# Swagger (Dev env only)
+## Swagger (Dev env only)
 - http://localhost:5000/swagger
 
-# Health check (Staging & Prod env only)
+## Health check (Staging & Prod env only)
 - http://localhost:5000/hc-ui
 - http://localhost:5000/hc-json
