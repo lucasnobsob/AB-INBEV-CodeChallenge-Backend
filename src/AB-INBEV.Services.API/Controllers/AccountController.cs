@@ -103,8 +103,8 @@ namespace AB_INBEV.Services.Api.Controllers
             // Add UserClaims
             var userClaims = new List<Claim>
             {
-                new Claim("Customers_Write", "Write"),
-                new Claim("Customers_Remove", "Remove"),
+                new Claim("Employee_Write", "Write"),
+                new Claim("Employee_Remove", "Remove"),
             };
             await _userManager.AddClaimsAsync(appUser, userClaims);
 

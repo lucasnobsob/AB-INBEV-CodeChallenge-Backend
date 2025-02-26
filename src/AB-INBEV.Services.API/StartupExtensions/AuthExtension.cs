@@ -64,15 +64,15 @@ namespace AB_INBEV.Services.Api.StartupExtensions
                 var policy1 = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .RequireRole("Admin")
-                    .AddRequirements(new ClaimRequirement("Customers_Write", "Write"))
+                    .AddRequirements(new ClaimRequirement("Employee_Write", "Write"))
                     .Build();
                 var policy2 = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .RequireRole("Admin")
-                    .AddRequirements(new ClaimRequirement("Customers_Remove", "Remove"))
+                    .AddRequirements(new ClaimRequirement("Employee_Remove", "Remove"))
                     .Build();
-                options.AddPolicy("CanWriteCustomerData", policy1);
-                options.AddPolicy("CanRemoveCustomerData", policy2);
+                options.AddPolicy("CanWriteEmployeeData", policy1);
+                options.AddPolicy("CanRemoveEmployeeData", policy2);
             });
 
             return services;

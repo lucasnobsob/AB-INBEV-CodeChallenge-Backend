@@ -28,7 +28,6 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("management")]
         [ProducesResponseType(typeof(IEnumerable<EmployeeViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -39,7 +38,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("management/{id:guid}")]
+        [Route("{id:guid}")]
         [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -53,8 +52,7 @@ namespace AB_INBEV.Services.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "CanWriteCustomerData", Roles = Roles.Admin)]
-        [Route("management")]
+        [Authorize(Policy = "CanWriteEmployeeData", Roles = Roles.Admin)]
         [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -74,8 +72,7 @@ namespace AB_INBEV.Services.Api.Controllers
         }
 
         [HttpPut]
-        [Authorize(Policy = "CanWriteCustomerData", Roles = Roles.Admin)]
-        [Route("management")]
+        [Authorize(Policy = "CanWriteEmployeeData", Roles = Roles.Admin)]
         [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -95,8 +92,7 @@ namespace AB_INBEV.Services.Api.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Policy = "CanRemoveCustomerData", Roles = Roles.Admin)]
-        [Route("management")]
+        [Authorize(Policy = "CanRemoveEmployeeData", Roles = Roles.Admin)]
         [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -111,7 +107,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("management/history/{id:guid}")]
+        [Route("history/{id:guid}")]
         [ProducesResponseType(typeof(IList<EmployeeHistoryData>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -123,7 +119,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("management/pagination")]
+        [Route("pagination")]
         [ProducesResponseType(typeof(IEnumerable<EmployeeViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
