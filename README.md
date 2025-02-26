@@ -1,10 +1,10 @@
 # Diagram
 
 # Techical Stack
-- ASP.NET Core 5.0 (with .NET Core 5.0)
-- ASP.NET WebApi Core
-- ASP.NET Identity Core
-- Entity Framework Core
+- .NET 8.0
+- .NET WebApi
+- .NET Identity
+- Entity Framework 8.0
 - .NET Core Native DI
 - AutoMapper
 - FluentValidator
