@@ -5,10 +5,13 @@ namespace AB_INBEV.Domain.Commands
 {
     public class RegisterNewEmployeeCommand : EmployeeCommand
     {
-        public RegisterNewEmployeeCommand(string name, string email, DateTime birthDate)
+        public RegisterNewEmployeeCommand(string firstName, string lastName, string email, string document, DateTime birthDate, IEnumerable<string> phones)
         {
-            FirstName = name;
+            FirstName = firstName;
+            LastName = lastName;
             Email = email;
+            Document = document;
+            Phones = phones;
             BirthDate = birthDate;
         }
 

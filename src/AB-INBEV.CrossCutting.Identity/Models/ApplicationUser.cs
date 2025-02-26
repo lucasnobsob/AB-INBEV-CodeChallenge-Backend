@@ -1,3 +1,4 @@
+using AB_INBEV.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace AB_INBEV.Infra.CrossCutting.Identity.Models

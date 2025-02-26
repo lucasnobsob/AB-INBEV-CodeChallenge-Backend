@@ -1,13 +1,13 @@
 using AB_INBEV.Application.Interfaces;
 using AB_INBEV.Application.ViewModels;
 using AB_INBEV.Domain.Commands;
-using AB_INBEV.Domain.Core.Bus;
 using AB_INBEV.Domain.Specifications;
 using AB_INBEV.Infra.Data.Repository.EventSourcing;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using AB_INBEV.Application.EventSourcedNormalizers;
 using AB_INBEV.Domain.Interfaces;
+using AB_INBEV.Domain.Core.Interfaces;
 
 namespace AB_INBEV.Application.Services
 {

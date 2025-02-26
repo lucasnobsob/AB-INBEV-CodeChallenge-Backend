@@ -1,7 +1,7 @@
 using System;
 using AB_INBEV.Application.Interfaces;
 using AB_INBEV.Application.ViewModels;
-using AB_INBEV.Domain.Core.Bus;
+using AB_INBEV.Domain.Core.Interfaces;
 using AB_INBEV.Domain.Core.Notifications;
 using AB_INBEV.Infra.CrossCutting.Identity.Authorization;
 using MediatR;

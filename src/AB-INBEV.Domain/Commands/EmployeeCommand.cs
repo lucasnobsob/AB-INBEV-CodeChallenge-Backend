@@ -12,11 +12,9 @@ namespace AB_INBEV.Domain.Commands
 
         public string Email { get; protected set; }
 
-        public string Password { get; set; }
+        public string Document { get; set; }
 
-        public string DocumentNumber { get; set; }
-
-        public string PhoneNumber { get; set; }
+        public IEnumerable<string> Phones { get; set; }
 
         public DateTime BirthDate { get; set; }
     }

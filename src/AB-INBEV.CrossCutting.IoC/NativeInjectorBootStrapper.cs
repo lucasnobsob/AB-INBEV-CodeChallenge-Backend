@@ -1,5 +1,4 @@
 using AB_INBEV.Domain.Commands;
-using AB_INBEV.Domain.Core.Bus;
 using AB_INBEV.Domain.Core.Notifications;
 using AB_INBEV.Infra.CrossCutting.Bus;
 using AB_INBEV.Infra.CrossCutting.Identity.Services;
@@ -20,6 +19,7 @@ using AB_INBEV.Domain.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using AB_INBEV.Domain.Core.Interfaces;
 
 
 namespace AB_INBEV.Infra.CrossCutting.IoC

@@ -4,11 +4,14 @@ namespace AB_INBEV.Domain.Commands
 {
     public class UpdateEmployeeCommand : EmployeeCommand
     {
-        public UpdateEmployeeCommand(Guid id, string name, string email, DateTime birthDate)
+        public UpdateEmployeeCommand(Guid id, string firstName, string lastName, string email, string document, DateTime birthDate, IEnumerable<string> phones)
         {
             Id = id;
-            FirstName = name;
+            FirstName = firstName;
+            LastName = lastName;
             Email = email;
+            Document = document;
+            Phones = phones;
             BirthDate = birthDate;
         }
 

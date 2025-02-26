@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AB_INBEV.Domain.Core.Bus;
+using AB_INBEV.Domain.Core.Interfaces;
 using AB_INBEV.Domain.Core.Notifications;
 using AB_INBEV.Domain.Interfaces;
 using AB_INBEV.Infra.CrossCutting.Identity.Data;

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using AB_INBEV.Domain.Core.Bus;
+using AB_INBEV.Domain.Core.Interfaces;
 using AB_INBEV.Domain.Core.Notifications;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

@@ -1,6 +1,6 @@
-using AB_INBEV.Domain.Core.Bus;
 using AB_INBEV.Domain.Core.Commands;
 using AB_INBEV.Domain.Core.Events;
+using AB_INBEV.Domain.Core.Interfaces;
 using MediatR;
 
 namespace AB_INBEV.Infra.CrossCutting.Bus

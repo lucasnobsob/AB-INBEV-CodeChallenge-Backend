@@ -1,5 +1,5 @@
-using AB_INBEV.Domain.Core.Bus;
 using AB_INBEV.Domain.Core.Commands;
+using AB_INBEV.Domain.Core.Interfaces;
 using AB_INBEV.Domain.Core.Notifications;
 using AB_INBEV.Domain.Interfaces;
 using MediatR;

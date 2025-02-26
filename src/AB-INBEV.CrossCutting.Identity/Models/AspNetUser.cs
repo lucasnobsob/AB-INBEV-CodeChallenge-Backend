@@ -13,7 +13,7 @@ namespace AB_INBEV.Infra.CrossCutting.Identity.Models
             _accessor = accessor;
         }
 
-        public string Name => _accessor.HttpContext.User.Identity.Name;
+        public string Name => _accessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
         public bool IsAuthenticated()
         {

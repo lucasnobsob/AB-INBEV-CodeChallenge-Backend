@@ -1,10 +1,9 @@
 using AB_INBEV.Domain.Commands;
-using AB_INBEV.Domain.Core.Bus;
+using AB_INBEV.Domain.Core.Interfaces;
 using AB_INBEV.Domain.Core.Notifications;
 using AB_INBEV.Domain.Events;
 using AB_INBEV.Domain.Interfaces;
 using AB_INBEV.Domain.Models;
-using AB_INBEV.Domain.Interfaces;
 using MediatR;
 
 namespace AB_INBEV.Domain.CommandHandlers
@@ -34,7 +33,7 @@ namespace AB_INBEV.Domain.CommandHandlers
                 return Task.FromResult(false);
             }
 
-            var employee = new Employee(Guid.NewGuid(), message.FirstName, message.Email, message.BirthDate);
+            var employee = new Employee(Guid.NewGuid(), message.FirstName, message.LastName, message.Email, message.Document, message.BirthDate, message.Phones);
 
             if (_customerRepository.GetByEmail(employee.Email) != null)
             {
@@ -60,7 +59,7 @@ namespace AB_INBEV.Domain.CommandHandlers
                 return Task.FromResult(false);
             }
 
-            var employee = new Employee(message.Id, message.FirstName, message.Email, message.BirthDate);
+            var employee = new Employee(message.Id, message.FirstName, message.LastName, message.Email, message.Document, message.BirthDate, message.Phones);
             var existingCustomer = _customerRepository.GetByEmail(employee.Email);
 
             if (existingCustomer != null && existingCustomer.Id != employee.Id)

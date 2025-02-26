@@ -1,7 +1,7 @@
 using AB_INBEV.Domain.Core.Commands;
 using AB_INBEV.Domain.Core.Events;
 
-namespace AB_INBEV.Domain.Core.Bus
+namespace AB_INBEV.Domain.Core.Interfaces
 {
     public interface IMediatorHandler
     {

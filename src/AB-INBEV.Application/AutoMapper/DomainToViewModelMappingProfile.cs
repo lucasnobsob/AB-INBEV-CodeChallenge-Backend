@@ -8,7 +8,11 @@ namespace AB_INBEV.Application.AutoMapper
     {
         public DomainToViewModelMappingProfile()
         {
-            CreateMap<Employee, EmployeeViewModel>();
+            CreateMap<Employee, EmployeeViewModel>()
+                .ForMember(dest => dest.Phones, opt => opt.MapFrom(src => src.Phones.Select(p => p.Number)));
+
+            CreateMap<EmployeeViewModel, Employee>()
+                .ForMember(dest => dest.Phones, opt => opt.MapFrom(src => src.Phones.Select(p => new Phone { Number = p })));
         }
     }
 }
