@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using AB_INBEV.Domain.Core.Interfaces;
 using AB_INBEV.Domain.Core.Notifications;
 using AB_INBEV.Domain.Interfaces;
@@ -15,12 +11,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace AB_INBEV.Services.Api.Controllers
 {
     [Authorize]
-    [Route("account")]
     public class AccountController : ApiController
     {
         private readonly UserManager<ApplicationUser> _userManager;

@@ -1,6 +1,7 @@
 using AB_INBEV.Infra.CrossCutting.IoC;
 using AB_INBEV.Services.Api.Configurations;
 using AB_INBEV.Services.Api.StartupExtensions;
+using AB_INBEV.Services.API.StartupExtensions;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -43,8 +44,11 @@ builder.Services.AddControllers()
 
 var app = builder.Build();
 
+app.ApplyMigrations();
+
 // ----- Error Handling -----
 app.UseCustomizedErrorHandling(_env);
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseRouting();
 
@@ -59,9 +63,7 @@ app.UseCustomizedAuth();
 
 app.MapControllers();
 
-//app.MapHealthChecks("/health");
-
-//HealthCheckExtension.UseCustomizedHealthCheck(app, _env);
+HealthCheckExtension.UseCustomizedHealthCheck(app, _env);
 
 // ----- Swagger UI -----
 app.UseCustomizedSwagger(_env);

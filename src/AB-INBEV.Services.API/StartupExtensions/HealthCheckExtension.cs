@@ -1,8 +1,6 @@
 using AB_INBEV.Infra.Data.Context;
 using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace AB_INBEV.Services.Api.StartupExtensions
 {
@@ -16,11 +14,10 @@ namespace AB_INBEV.Services.Api.StartupExtensions
                     .AddSqlServer(configuration.GetConnectionString("DefaultConnection"))
                     .AddDbContextCheck<ApplicationDbContext>();
 
-                //services.AddHealthChecksUI(opt =>
-                //{
-                //    opt.SetEvaluationTimeInSeconds(15); // time in seconds between checks
-                //    opt.AddHealthCheckEndpoint("API", "/hc"); // register the health check endpoint
-                //}).AddInMemoryStorage();
+                services.AddHealthChecksUI(opt =>
+                {
+                    opt.SetEvaluationTimeInSeconds(15); // time in seconds between check
+                }).AddInMemoryStorage();
             }
 
             return services;
@@ -36,11 +33,11 @@ namespace AB_INBEV.Services.Api.StartupExtensions
                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
                 });
 
-                //endpoints.MapHealthChecksUI(setup =>
-                //{
-                //    setup.UIPath = "/hc-ui"; // UI path
-                //    setup.ApiPath = "/hc-json"; // API path
-                //});
+                endpoints.MapHealthChecksUI(setup =>
+                {
+                    setup.UIPath = "/hc-ui"; // UI path
+                    setup.ApiPath = "/hc-json"; // API path
+                });
             }
         }
     }

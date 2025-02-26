@@ -13,24 +13,6 @@ services:
     depends_on:
       - sqlserver
 
-  migrations-infra-data:
-    image: mcr.microsoft.com/dotnet/sdk:8.0
-    volumes:
-      - .:/src
-    working_dir: /src/src/AB-INBEV.Infra.Data
-    command: /bin/sh -c "dotnet tool install --global dotnet-ef && export PATH=\"$PATH:/root/.dotnet/tools\" && dotnet ef database update"
-    depends_on:
-      - sqlserver
-
-  migrations-crosscutting-identity:
-    image: mcr.microsoft.com/dotnet/sdk:8.0
-    volumes:
-      - .:/src
-    working_dir: /src/src/AB-INBEV.CrossCutting.Identity
-    command: /bin/sh -c "dotnet tool install --global dotnet-ef && export PATH=\"$PATH:/root/.dotnet/tools\" && dotnet ef database update"
-    depends_on:
-      - sqlserver
-
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using AB_INBEV.Domain.Core.Interfaces;
 using AB_INBEV.Domain.Core.Notifications;
 using AB_INBEV.Infra.CrossCutting.Identity.Models.RoleViewModels;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AB_INBEV.Services.Api.Controllers
 {
-    [Route("role")]
     public class RoleController : ApiController
     {
         private readonly RoleManager<IdentityRole> _roleManager;

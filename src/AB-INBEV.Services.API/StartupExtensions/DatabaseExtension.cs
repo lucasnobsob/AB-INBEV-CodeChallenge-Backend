@@ -11,12 +11,6 @@ namespace AB_INBEV.Services.Api.StartupExtensions
             services.AddDbContext<AuthDbContext>(options => {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                // Configuring it to throw an exception when a query is evaluated client side
-                // This is no longer logged in Entity Framework Core 3.0.
-                // options.ConfigureWarnings(warnings =>
-                // {
-                //     warnings.Throw(RelationalEventId.QueryClientEvaluationWarning);
-                // });
                 if (!env.IsProduction())
                 {
                     options.EnableDetailedErrors();

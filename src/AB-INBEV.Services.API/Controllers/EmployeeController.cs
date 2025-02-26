@@ -1,4 +1,4 @@
-using System;
+using AB_INBEV.Application.EventSourcedNormalizers;
 using AB_INBEV.Application.Interfaces;
 using AB_INBEV.Application.ViewModels;
 using AB_INBEV.Domain.Core.Interfaces;
@@ -11,22 +11,27 @@ using Microsoft.AspNetCore.Mvc;
 namespace AB_INBEV.Services.Api.Controllers
 {
     [Authorize]
-    [Route("employees")]
     public class EmployeeController : ApiController
     {
         private readonly IEmployeeAppService _employeeAppService;
+        private readonly ILogger<EmployeeController> _logger;
 
         public EmployeeController(
             IEmployeeAppService customerAppService,
             INotificationHandler<DomainNotification> notifications,
+            ILogger<EmployeeController> logger,
             IMediatorHandler mediator) : base(notifications, mediator)
         {
             _employeeAppService = customerAppService;
+            _logger = logger;
         }
 
         [HttpGet]
         [AllowAnonymous]
         [Route("management")]
+        [ProducesResponseType(typeof(IEnumerable<EmployeeViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public IActionResult Get()
         {
             return Response(_employeeAppService.GetAll());
@@ -35,8 +40,13 @@ namespace AB_INBEV.Services.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("management/{id:guid}")]
+        [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public IActionResult Get(Guid id)
         {
+            _logger.LogInformation("Guid recebido: {@guid}", id);
+
             var customerViewModel = _employeeAppService.GetById(id);
 
             return Response(customerViewModel);
@@ -45,8 +55,13 @@ namespace AB_INBEV.Services.Api.Controllers
         [HttpPost]
         [Authorize(Policy = "CanWriteCustomerData", Roles = Roles.Admin)]
         [Route("management")]
+        [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public IActionResult Post([FromBody] EmployeeViewModel customerViewModel)
         {
+            _logger.LogInformation("Objeto recebido: {@customerViewModel}", customerViewModel);
+
             if (!ModelState.IsValid)
             {
                 NotifyModelStateErrors();
@@ -61,8 +76,13 @@ namespace AB_INBEV.Services.Api.Controllers
         [HttpPut]
         [Authorize(Policy = "CanWriteCustomerData", Roles = Roles.Admin)]
         [Route("management")]
+        [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public IActionResult Put([FromBody] EmployeeViewModel customerViewModel)
         {
+            _logger.LogInformation("Objeto recebido: {@customerViewModel}", customerViewModel);
+
             if (!ModelState.IsValid)
             {
                 NotifyModelStateErrors();
@@ -77,8 +97,13 @@ namespace AB_INBEV.Services.Api.Controllers
         [HttpDelete]
         [Authorize(Policy = "CanRemoveCustomerData", Roles = Roles.Admin)]
         [Route("management")]
+        [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public IActionResult Delete(Guid id)
         {
+            _logger.LogInformation("Guid recebido: {@guid}", id);
+
             _employeeAppService.Remove(id);
 
             return Response();
@@ -87,6 +112,9 @@ namespace AB_INBEV.Services.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("management/history/{id:guid}")]
+        [ProducesResponseType(typeof(IList<EmployeeHistoryData>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public IActionResult History(Guid id)
         {
             var customerHistoryData = _employeeAppService.GetAllHistory(id);
@@ -96,6 +124,9 @@ namespace AB_INBEV.Services.Api.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("management/pagination")]
+        [ProducesResponseType(typeof(IEnumerable<EmployeeViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public IActionResult Pagination(int skip, int take)
         {
             return Response(_employeeAppService.GetAll(skip, take));

@@ -43,11 +43,8 @@ namespace AB_INBEV.Services.Api.StartupExtensions
                                 In = ParameterLocation.Header,
                             },
                             new List<string>()
-                            // new string[] { }
                         }
                     });
-                    // Add custom header request
-                    //c.OperationFilter<AddRequiredHeaderParameter>();
                 });
             }
 
@@ -58,13 +55,10 @@ namespace AB_INBEV.Services.Api.StartupExtensions
         {
             if (env.IsDevelopment())
             {
-                // Enable middleware to serve generated Swagger as a JSON endpoint.
                 app.UseSwagger();
-                // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-                // specifying the Swagger JSON endpoint.
                 app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ASPNET Core DDD Project API v1.1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AB-INBEV Code Challenge API");
                 });
             }
 
