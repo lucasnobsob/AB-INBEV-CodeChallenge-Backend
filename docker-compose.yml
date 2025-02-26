@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  ab-inbev.services.api:
+    image: ${DOCKER_REGISTRY-}abinbevservicesapi
+    build:
+      context: .
+      dockerfile: src/AB-INBEV.Services.API/Dockerfile
