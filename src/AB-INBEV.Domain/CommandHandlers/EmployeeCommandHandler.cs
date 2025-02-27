@@ -51,23 +51,23 @@ namespace AB_INBEV.Domain.CommandHandlers
             return Task.FromResult(true);
         }
 
-        public Task<bool> Handle(UpdateEmployeeCommand message, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateEmployeeCommand message, CancellationToken cancellationToken)
         {
             if (!message.IsValid())
             {
                 NotifyValidationErrors(message);
-                return Task.FromResult(false);
+                return await Task.FromResult(false);
             }
 
             var employee = new Employee(message.Id, message.FirstName, message.LastName, message.Email, message.Document, message.BirthDate, message.Phones);
-            var existingCustomer = _customerRepository.GetByEmail(employee.Email);
+            var existingCustomer = await _customerRepository.GetByEmail(employee.Email);
 
             if (existingCustomer != null && existingCustomer.Id != employee.Id)
             {
                 if (!existingCustomer.Equals(employee))
                 {
                     Bus.RaiseEvent(new DomainNotification(message.MessageType, "The customer e-mail has already been taken."));
-                    return Task.FromResult(false);
+                    return await Task.FromResult(false);
                 }
             }
 
@@ -78,7 +78,7 @@ namespace AB_INBEV.Domain.CommandHandlers
                 Bus.RaiseEvent(new EmployeeUpdatedEvent(employee.Id, employee.FirstName, employee.Email, employee.BirthDate));
             }
 
-            return Task.FromResult(true);
+            return await Task.FromResult(true);
         }
 
         public Task<bool> Handle(RemoveEmployeeCommand message, CancellationToken cancellationToken)

@@ -5,6 +5,6 @@ namespace AB_INBEV.Domain.Interfaces
 {
     public interface IEmployeeRepository : IRepository<Employee>
     {
-        Employee GetByEmail(string email);
+        Task<Employee> GetByEmail(string email);
     }
 }
