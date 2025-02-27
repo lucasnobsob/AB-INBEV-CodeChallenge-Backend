@@ -1,5 +1,6 @@
 using AB_INBEV.Domain.Core.Events;
 using AB_INBEV.Infra.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace AB_INBEV.Infra.Data.Repository.EventSourcing
 {
@@ -12,9 +13,9 @@ namespace AB_INBEV.Infra.Data.Repository.EventSourcing
             _context = context;
         }
 
-        public IList<StoredEvent> All(Guid aggregateId)
+        public async Task<IList<StoredEvent>> All(Guid aggregateId)
         {
-            return (from e in _context.StoredEvent where e.AggregateId == aggregateId select e).ToList();
+            return await (from e in _context.StoredEvent where e.AggregateId == aggregateId select e).ToListAsync();
         }
 
         public void Store(StoredEvent theEvent)
