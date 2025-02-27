@@ -5,12 +5,12 @@ namespace AB_INBEV.Application.Interfaces
 {
     public interface IEmployeeAppService
     {
-        void Register(EmployeeViewModel employeeViewModel);
-        IEnumerable<EmployeeViewModel> GetAll();
-        IEnumerable<EmployeeViewModel> GetAll(int skip, int take);
-        EmployeeViewModel GetById(Guid id);
-        void Update(EmployeeViewModel employeeViewModel);
-        void Remove(Guid id);
-        IList<EmployeeHistoryData> GetAllHistory(Guid id);
+        Task Register(EmployeeViewModel employeeViewModel);
+        Task<IEnumerable<EmployeeViewModel>> GetAll();
+        Task<IEnumerable<EmployeeViewModel>> GetAll(int skip, int take);
+        Task<EmployeeViewModel> GetById(Guid id);
+        Task Update(EmployeeViewModel employeeViewModel);
+        Task Remove(Guid id);
+        Task<IList<EmployeeHistoryData>> GetAllHistory(Guid id);
     }
 }

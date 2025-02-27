@@ -31,9 +31,10 @@ namespace AB_INBEV.Services.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<EmployeeViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Response(_employeeAppService.GetAll());
+            var employees = await _employeeAppService.GetAll();
+            return Response(employees);
         }
 
         [HttpGet]
@@ -42,11 +43,11 @@ namespace AB_INBEV.Services.Api.Controllers
         [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
             _logger.LogInformation("Guid recebido: {@guid}", id);
 
-            var customerViewModel = _employeeAppService.GetById(id);
+            var customerViewModel = await _employeeAppService.GetById(id);
 
             return Response(customerViewModel);
         }
@@ -56,7 +57,7 @@ namespace AB_INBEV.Services.Api.Controllers
         [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public IActionResult Post([FromBody] EmployeeViewModel customerViewModel)
+        public async Task<IActionResult> Post([FromBody] EmployeeViewModel customerViewModel)
         {
             _logger.LogInformation("Objeto recebido: {@customerViewModel}", customerViewModel);
 
@@ -66,7 +67,7 @@ namespace AB_INBEV.Services.Api.Controllers
                 return Response(customerViewModel);
             }
 
-            _employeeAppService.Register(customerViewModel);
+            await _employeeAppService.Register(customerViewModel);
 
             return Response(customerViewModel);
         }
@@ -76,7 +77,7 @@ namespace AB_INBEV.Services.Api.Controllers
         [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public IActionResult Put([FromBody] EmployeeViewModel customerViewModel)
+        public async Task<IActionResult> Put([FromBody] EmployeeViewModel customerViewModel)
         {
             _logger.LogInformation("Objeto recebido: {@customerViewModel}", customerViewModel);
 
@@ -86,7 +87,7 @@ namespace AB_INBEV.Services.Api.Controllers
                 return Response(customerViewModel);
             }
 
-            _employeeAppService.Update(customerViewModel);
+            await _employeeAppService.Update(customerViewModel);
 
             return Response(customerViewModel);
         }
@@ -96,11 +97,11 @@ namespace AB_INBEV.Services.Api.Controllers
         [ProducesResponseType(typeof(EmployeeViewModel), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             _logger.LogInformation("Guid recebido: {@guid}", id);
 
-            _employeeAppService.Remove(id);
+            await _employeeAppService.Remove(id);
 
             return NoContent();
         }
@@ -111,9 +112,9 @@ namespace AB_INBEV.Services.Api.Controllers
         [ProducesResponseType(typeof(IList<EmployeeHistoryData>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public IActionResult History(Guid id)
+        public async Task<IActionResult> History(Guid id)
         {
-            var customerHistoryData = _employeeAppService.GetAllHistory(id);
+            var customerHistoryData = await _employeeAppService.GetAllHistory(id);
             return Response(customerHistoryData);
         }
 
@@ -123,9 +124,10 @@ namespace AB_INBEV.Services.Api.Controllers
         [ProducesResponseType(typeof(IEnumerable<EmployeeViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public IActionResult Pagination(int skip, int take)
+        public async Task<IActionResult> Pagination(int skip, int take)
         {
-            return Response(_employeeAppService.GetAll(skip, take));
+            var employees = await _employeeAppService.GetAll(skip, take);
+            return Response(employees);
         }
     }
 }

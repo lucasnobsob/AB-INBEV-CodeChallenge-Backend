@@ -1,16 +1,13 @@
-﻿using AB_INBEV.Application.EventSourcedNormalizers;
-using AB_INBEV.Application.Services;
+﻿using AB_INBEV.Application.Services;
 using AB_INBEV.Application.UnitTests.Dummies;
 using AB_INBEV.Application.ViewModels;
 using AB_INBEV.Domain.Commands;
-using AB_INBEV.Domain.Core.Events;
 using AB_INBEV.Domain.Core.Interfaces;
 using AB_INBEV.Domain.Interfaces;
 using AB_INBEV.Domain.Models;
 using AB_INBEV.Domain.Specifications;
 using AB_INBEV.Infra.Data.Repository.EventSourcing;
 using AutoMapper;
-using Bogus;
 using Moq;
 using Xunit;
 
@@ -43,51 +40,51 @@ namespace AB_INBEV.Application.UnitTests.Services
         }
 
         [Fact]
-        public void GetAll_ShouldReturnAllEmployees()
+        public async Task GetAll_ShouldReturnAllEmployees()
         {
             // Arrange
             var employees = _employeeDummyFactory.Generate(3);
 
             MockEmployeeMapping();
             _employeeRepositoryMock.Setup(repo => repo.GetAll())
-                .Returns(employees.AsQueryable());
+                .ReturnsAsync(employees);
 
             // Act
-            var result = _employeeAppService.GetAll();
+            var result = await _employeeAppService.GetAll();
 
             // Assert
             Assert.Equal(3, result.Count());
         }
 
         [Fact]
-        public void GetAll_WithPagination_ShouldReturnPaginatedEmployees()
+        public async Task GetAll_WithPagination_ShouldReturnPaginatedEmployees()
         {
             // Arrange
             var employees = _employeeDummyFactory.Generate(3);
 
             MockEmployeeMapping();
             _employeeRepositoryMock.Setup(repo => repo.GetAll(It.IsAny<EmployeeFilterPaginatedSpecification>()))
-                .Returns(employees.AsQueryable());
+                .ReturnsAsync(employees);
 
             // Act
-            var result = _employeeAppService.GetAll(0, 2);
+            var result = await _employeeAppService.GetAll(0, 2);
 
             // Assert
             Assert.Equal(3, result.Count());
         }
 
         [Fact]
-        public void GetById_ShouldReturnEmployee()
+        public async Task GetById_ShouldReturnEmployee()
         {
             // Arrange
             var employee = _employeeDummyFactory.Generate();
 
             MockEmployeeMapping();
             _employeeRepositoryMock.Setup(repo => repo.GetById(employee.Id))
-                .Returns(employee);
+                .ReturnsAsync(employee);
 
             // Act
-            var result = _employeeAppService.GetById(employee.Id);
+            var result = await _employeeAppService.GetById(employee.Id);
 
             // Assert
             Assert.NotNull(result);
@@ -95,7 +92,7 @@ namespace AB_INBEV.Application.UnitTests.Services
         }
 
         [Fact]
-        public void Register_ShouldSendRegisterCommand()
+        public async Task Register_ShouldSendRegisterCommand()
         {
             // Arrange
             var employeeViewModel = new EmployeeViewModel { Id = Guid.NewGuid(), FirstName = "John Doe" };
@@ -105,14 +102,14 @@ namespace AB_INBEV.Application.UnitTests.Services
                 .Returns(registerCommand);
 
             // Act
-            _employeeAppService.Register(employeeViewModel);
+            await _employeeAppService.Register(employeeViewModel);
 
             // Assert
             _mediatorHandlerMock.Verify(mediator => mediator.SendCommand(registerCommand), Times.Once);
         }
 
         [Fact]
-        public void Update_ShouldSendUpdateCommand()
+        public async Task Update_ShouldSendUpdateCommand()
         {
             // Arrange
             var employeeViewModel = new EmployeeViewModel { Id = Guid.NewGuid(), FirstName = "John Doe" };
@@ -122,20 +119,20 @@ namespace AB_INBEV.Application.UnitTests.Services
                 .Returns(updateCommand);
 
             // Act
-            _employeeAppService.Update(employeeViewModel);
+            await _employeeAppService.Update(employeeViewModel);
 
             // Assert
             _mediatorHandlerMock.Verify(mediator => mediator.SendCommand(updateCommand), Times.Once);
         }
 
         [Fact]
-        public void Remove_ShouldSendRemoveCommand()
+        public async Task Remove_ShouldSendRemoveCommand()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
 
             // Act
-            _employeeAppService.Remove(employeeId);
+            await _employeeAppService.Remove(employeeId);
 
             // Assert
             _mediatorHandlerMock.Verify(mediator => mediator.SendCommand(
@@ -143,17 +140,17 @@ namespace AB_INBEV.Application.UnitTests.Services
         }
 
         [Fact]
-        public void GetAllHistory_ShouldReturnEmployeeHistory()
+        public async Task GetAllHistory_ShouldReturnEmployeeHistory()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
             var historyData = _storedEventDommyFactory.Generate(3);
 
             _eventStoreRepositoryMock.Setup(repo => repo.All(employeeId))
-                .Returns(historyData);
+                .ReturnsAsync(historyData);
 
             // Act
-            var result = _employeeAppService.GetAllHistory(employeeId);
+            var result = await _employeeAppService.GetAllHistory(employeeId);
 
             // Assert
             Assert.Equal(3, result.Count);
@@ -173,6 +170,17 @@ namespace AB_INBEV.Application.UnitTests.Services
 
         private void MockEmployeeMapping()
         {
+            _mapperMock.Setup(m => m.Map<List<EmployeeViewModel>>(It.IsAny<List<Employee>>()))
+                .Returns((List<Employee> source) => source.Select(e => new EmployeeViewModel {
+                    Id = e.Id,
+                    FirstName = e.FirstName,
+                    LastName = e.LastName,
+                    Email = e.Email,
+                    Document = e.Document,
+                    BirthDate = e.BirthDate,
+                    Phones = e.Phones.Select(p => p.Number).ToList()
+                }).ToList());
+
             _mapperMock.Setup(mapper => mapper.ConfigurationProvider)
                 .Returns(new MapperConfiguration(cfg =>
                 {

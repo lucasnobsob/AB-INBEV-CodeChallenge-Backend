@@ -39,7 +39,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public void Get_ShouldReturnAllEmployees()
+        public async Task Get_ShouldReturnAllEmployees()
         {
             // Arrange
             var employees = new List<EmployeeViewModel>
@@ -49,10 +49,10 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
             };
 
             _employeeAppServiceMock.Setup(service => service.GetAll())
-                .Returns(employees);
+                .ReturnsAsync(employees);
 
             // Act
-            var result = _employeeController.Get();
+            var result = await _employeeController.Get();
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -65,17 +65,17 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public void Get_WithId_ShouldReturnEmployee()
+        public async Task Get_WithId_ShouldReturnEmployee()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
             var employee = new EmployeeViewModel { Id = employeeId, FirstName = "John Doe" };
 
             _employeeAppServiceMock.Setup(service => service.GetById(employeeId))
-                .Returns(employee);
+                .ReturnsAsync(employee);
 
             // Act
-            var result = _employeeController.Get(employeeId);
+            var result = await _employeeController.Get(employeeId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -88,7 +88,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public void Post_WithValidModel_ShouldRegisterEmployee()
+        public async Task Post_WithValidModel_ShouldRegisterEmployee()
         {
             // Arrange
             var employeeViewModel = new EmployeeViewModel { Id = Guid.NewGuid(), FirstName = "John Doe" };
@@ -96,7 +96,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
             _employeeAppServiceMock.Setup(service => service.Register(employeeViewModel));
 
             // Act
-            var result = _employeeController.Post(employeeViewModel);
+            var result = await _employeeController.Post(employeeViewModel);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -109,7 +109,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public void Post_WithInvalidModel_ShouldReturnBadRequest()
+        public async Task Post_WithInvalidModel_ShouldReturnBadRequest()
         {
             // Arrange
             var employeeViewModel = new EmployeeViewModel { Id = Guid.NewGuid(), FirstName = "" };
@@ -119,7 +119,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
             _notificationHandlerMock.Setup(s => s.GetNotifications()).Returns(notificationList);
 
             // Act
-            var result = _employeeController.Post(employeeViewModel);
+            var result = await _employeeController.Post(employeeViewModel);
 
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -132,7 +132,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public void Put_WithValidModel_ShouldUpdateEmployee()
+        public async Task Put_WithValidModel_ShouldUpdateEmployee()
         {
             // Arrange
             var employeeViewModel = new EmployeeViewModel { Id = Guid.NewGuid(), FirstName = "John Doe" };
@@ -140,7 +140,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
             _employeeAppServiceMock.Setup(service => service.Update(employeeViewModel));
 
             // Act
-            var result = _employeeController.Put(employeeViewModel);
+            var result = await _employeeController.Put(employeeViewModel);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -153,7 +153,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public void Put_WithInvalidModel_ShouldReturnBadRequest()
+        public async Task Put_WithInvalidModel_ShouldReturnBadRequest()
         {
             // Arrange
             var notificationList = new List<DomainNotification>() { new DomainNotification("", "Name is required") };
@@ -163,7 +163,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
             _notificationHandlerMock.Setup(s => s.GetNotifications()).Returns(notificationList);
 
             // Act
-            var result = _employeeController.Put(employeeViewModel);
+            var result = await _employeeController.Put(employeeViewModel);
 
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
@@ -176,7 +176,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public void Delete_ShouldRemoveEmployee()
+        public async Task Delete_ShouldRemoveEmployee()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
@@ -184,7 +184,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
             _employeeAppServiceMock.Setup(service => service.Remove(employeeId));
 
             // Act
-            var result = _employeeController.Delete(employeeId);
+            var result = await _employeeController.Delete(employeeId);
 
             // Assert
             var noContentResult = Assert.IsType<NoContentResult>(result);
@@ -192,7 +192,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public void History_ShouldReturnEmployeeHistory()
+        public async Task History_ShouldReturnEmployeeHistory()
         {
             // Arrange
             var employeeId = Guid.NewGuid();
@@ -202,10 +202,10 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
             };
 
             _employeeAppServiceMock.Setup(service => service.GetAllHistory(employeeId))
-                .Returns(historyData);
+                .ReturnsAsync(historyData);
 
             // Act
-            var result = _employeeController.History(employeeId);
+            var result = await _employeeController.History(employeeId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -218,7 +218,7 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public void Pagination_ShouldReturnPaginatedEmployees()
+        public async Task Pagination_ShouldReturnPaginatedEmployees()
         {
             // Arrange
             var employees = new List<EmployeeViewModel>
@@ -228,10 +228,10 @@ namespace AB_INBEV.Services.Api.IntegrationTests.Controllers
             };
 
             _employeeAppServiceMock.Setup(service => service.GetAll(0, 2))
-                .Returns(employees);
+                .ReturnsAsync(employees);
 
             // Act
-            var result = _employeeController.Pagination(0, 2);
+            var result = await _employeeController.Pagination(0, 2);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
