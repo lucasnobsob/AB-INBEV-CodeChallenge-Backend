@@ -42,7 +42,8 @@ namespace AB_INBEV.Application.Services
 
         public EmployeeViewModel GetById(Guid id)
         {
-            return _mapper.Map<EmployeeViewModel>(_employeeRepository.GetById(id));
+            var employee = _employeeRepository.GetById(id);
+            return _mapper.Map<EmployeeViewModel>(employee);
         }
 
         public void Register(EmployeeViewModel customerViewModel)

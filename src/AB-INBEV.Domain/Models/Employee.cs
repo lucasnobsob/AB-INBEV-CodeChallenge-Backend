@@ -26,6 +26,14 @@ namespace AB_INBEV.Domain.Models
             BirthDate = birthDate;
         }
 
+        public Employee(Guid id, string firstName)
+        {
+            Id = id;
+            FirstName = firstName;
+        }
+
+        public Employee() { }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

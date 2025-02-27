@@ -12,7 +12,7 @@ namespace AB_INBEV.Domain.Core.Events
         }
 
         // EF Constructor
-        protected StoredEvent() { }
+        public StoredEvent() { }
 
         public Guid Id { get; private set; }
 

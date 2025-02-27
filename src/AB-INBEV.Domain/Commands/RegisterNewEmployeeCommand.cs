@@ -15,6 +15,12 @@ namespace AB_INBEV.Domain.Commands
             BirthDate = birthDate;
         }
 
+        public RegisterNewEmployeeCommand(Guid id, string firstName)
+        {
+            Id = id;
+            FirstName = firstName;
+        }
+
         public override bool IsValid()
         {
             ValidationResult = new RegisterNewEmployeeCommandValidation().Validate(this);
