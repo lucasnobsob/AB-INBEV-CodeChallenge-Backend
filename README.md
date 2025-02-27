@@ -32,6 +32,16 @@
 - Options Pattern
 
 ## How to run
+- First of all, you need to create the migrations
+- in the identity folder run
+```
+Add-Migration CreateIdentitySchema -Context AuthDbContext
+```
+- in the Infra.Data folder run
+```
+Add-Migration InitialApp -Context ApplicationDbContext
+Add-Migration InitialEventStore -Context EventStoreSqlContext
+```
 - Visual Studio: `Just run`
 - VSCode: `Just run`
 - Terminal: `dotnet run --project src/DDD.Services.Api/DDD.Services.Api.csproj --launch-profile Dev`
