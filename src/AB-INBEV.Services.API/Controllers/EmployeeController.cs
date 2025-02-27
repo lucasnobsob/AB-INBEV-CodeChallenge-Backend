@@ -102,7 +102,7 @@ namespace AB_INBEV.Services.Api.Controllers
 
             _employeeAppService.Remove(id);
 
-            return Response();
+            return NoContent();
         }
 
         [HttpGet]

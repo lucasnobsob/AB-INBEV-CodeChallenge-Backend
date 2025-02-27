@@ -8,6 +8,8 @@ namespace AB_INBEV.Application.AutoMapper
     {
         public DomainToViewModelMappingProfile()
         {
+            CreateMap<Employee, EmployeeViewModel>().ReverseMap();
+
             CreateMap<Employee, EmployeeViewModel>()
                 .ForMember(dest => dest.Phones, opt => opt.MapFrom(src => src.Phones.Select(p => p.Number)));
 
