@@ -29,44 +29,46 @@ namespace AB_INBEV.Application.Services
             _eventStoreRepository = eventStoreRepository;
         }
 
-        public IEnumerable<EmployeeViewModel> GetAll()
+        public async Task<IEnumerable<EmployeeViewModel>> GetAll()
         {
-            return _employeeRepository.GetAll().ProjectTo<EmployeeViewModel>(_mapper.ConfigurationProvider);
+            var employees = await _employeeRepository.GetAll();
+            return _mapper.Map<List<EmployeeViewModel>>(employees);
         }
 
-        public IEnumerable<EmployeeViewModel> GetAll(int skip, int take)
+        public async Task<IEnumerable<EmployeeViewModel>> GetAll(int skip, int take)
         {
-            return _employeeRepository.GetAll(new EmployeeFilterPaginatedSpecification(skip, take))
-                .ProjectTo<EmployeeViewModel>(_mapper.ConfigurationProvider);
+            var employees = await _employeeRepository.GetAll(new EmployeeFilterPaginatedSpecification(skip, take));
+            return _mapper.Map<List<EmployeeViewModel>>(employees);
         }
 
-        public EmployeeViewModel GetById(Guid id)
+        public async Task<EmployeeViewModel> GetById(Guid id)
         {
-            var employee = _employeeRepository.GetById(id);
+            var employee = await _employeeRepository.GetById(id);
             return _mapper.Map<EmployeeViewModel>(employee);
         }
 
-        public void Register(EmployeeViewModel customerViewModel)
+        public async Task Register(EmployeeViewModel customerViewModel)
         {
             var registerCommand = _mapper.Map<RegisterNewEmployeeCommand>(customerViewModel);
-            Bus.SendCommand(registerCommand);
+            await Bus.SendCommand(registerCommand);
         }
 
-        public void Update(EmployeeViewModel customerViewModel)
+        public async Task Update(EmployeeViewModel customerViewModel)
         {
             var updateCommand = _mapper.Map<UpdateEmployeeCommand>(customerViewModel);
-            Bus.SendCommand(updateCommand);
+            await Bus.SendCommand(updateCommand);
         }
 
-        public void Remove(Guid id)
+        public async Task Remove(Guid id)
         {
             var removeCommand = new RemoveEmployeeCommand(id);
-            Bus.SendCommand(removeCommand);
+            await Bus.SendCommand(removeCommand);
         }
 
-        public IList<EmployeeHistoryData> GetAllHistory(Guid id)
+        public async Task<IList<EmployeeHistoryData>> GetAllHistory(Guid id)
         {
-            return EmployeeHistory.ToJavaScriptCustomerHistory(_eventStoreRepository.All(id));
+            var storedEvents = await _eventStoreRepository.All(id);
+            return EmployeeHistory.ToJavaScriptCustomerHistory(storedEvents);
         }
 
         public void Dispose()

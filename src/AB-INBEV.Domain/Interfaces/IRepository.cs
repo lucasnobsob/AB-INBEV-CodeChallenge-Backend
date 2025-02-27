@@ -2,13 +2,13 @@ namespace AB_INBEV.Domain.Interfaces
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : class
     {
-        void Add(TEntity obj);
-        TEntity GetById(Guid id);
-        IQueryable<TEntity> GetAll();
-        IQueryable<TEntity> GetAll(ISpecification<TEntity> spec);
-        IQueryable<TEntity> GetAllSoftDeleted();
+        Task Add(TEntity obj);
+        Task<TEntity> GetById(Guid id);
+        Task<IEnumerable<TEntity>> GetAll();
+        Task<IEnumerable<TEntity>> GetAll(ISpecification<TEntity> spec);
+        Task<IEnumerable<TEntity>> GetAllSoftDeleted();
         void Update(TEntity obj);
-        void Remove(Guid id);
-        int SaveChanges();
+        Task Remove(Guid id);
+        Task<int> SaveChanges();
     }
 }
