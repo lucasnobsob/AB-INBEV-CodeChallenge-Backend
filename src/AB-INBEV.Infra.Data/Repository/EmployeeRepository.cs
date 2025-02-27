@@ -14,9 +14,14 @@ namespace AB_INBEV.Infra.Data.Repository
 
         }
 
-        public Employee GetByEmail(string email)
+        public async Task<Employee> GetByEmail(string email)
         {
-            return DbSet.AsNoTracking().FirstOrDefault(c => c.Email == email);
+            return await DbSet.AsNoTracking().FirstOrDefaultAsync(c => c.Email == email);
+        }
+
+        public override async Task<IEnumerable<Employee>> GetAll()
+        {
+            return await DbSet.Include(i => i.Phones).ToListAsync();
         }
     }
 }
