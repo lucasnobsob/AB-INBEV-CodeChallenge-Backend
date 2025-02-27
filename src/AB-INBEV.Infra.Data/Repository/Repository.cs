@@ -15,30 +15,30 @@ namespace AB_INBEV.Infra.Data.Repository
             DbSet = Db.Set<TEntity>();
         }
 
-        public virtual void Add(TEntity obj)
+        public virtual async Task Add(TEntity obj)
         {
-            DbSet.Add(obj);
+            await DbSet.AddAsync(obj);
         }
 
-        public virtual TEntity GetById(Guid id)
+        public virtual async Task<TEntity> GetById(Guid id)
         {
-            return DbSet.Find(id);
+            return await DbSet.FindAsync(id);
         }
 
-        public virtual IQueryable<TEntity> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
-            return DbSet;
+            return await DbSet.ToListAsync();
         }
 
-        public virtual IQueryable<TEntity> GetAll(ISpecification<TEntity> spec)
+        public virtual async Task<IEnumerable<TEntity>> GetAll(ISpecification<TEntity> spec)
         {
-            return ApplySpecification(spec);
+            return await ApplySpecification(spec);
         }
 
-        public virtual IQueryable<TEntity> GetAllSoftDeleted()
+        public virtual async Task<IEnumerable<TEntity>> GetAllSoftDeleted()
         {
-            return DbSet.IgnoreQueryFilters()
-                .Where(e => EF.Property<bool>(e, "IsDeleted") == true);
+            return await DbSet.IgnoreQueryFilters()
+                .Where(e => EF.Property<bool>(e, "IsDeleted") == true).ToListAsync();
         }
 
         public virtual void Update(TEntity obj)
@@ -46,14 +46,16 @@ namespace AB_INBEV.Infra.Data.Repository
             DbSet.Update(obj);
         }
 
-        public virtual void Remove(Guid id)
+        public virtual async Task Remove(Guid id)
         {
-            DbSet.Remove(DbSet.Find(id));
+            var entity = await DbSet.FindAsync(id);
+            if (entity is null) return;
+            DbSet.Remove(entity);
         }
 
-        public int SaveChanges()
+        public async Task<int> SaveChanges()
         {
-            return Db.SaveChanges();
+            return await Db.SaveChangesAsync();
         }
 
         public void Dispose()
@@ -62,9 +64,9 @@ namespace AB_INBEV.Infra.Data.Repository
             GC.SuppressFinalize(this);
         }
 
-        private IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> spec)
+        private async Task<IEnumerable<TEntity>> ApplySpecification(ISpecification<TEntity> spec)
         {
-            return SpecificationEvaluator<TEntity>.GetQuery(DbSet.AsQueryable(), spec);
+            return await SpecificationEvaluator<TEntity>.GetQuery(DbSet.AsQueryable(), spec).ToListAsync();
         }
     }
 }
