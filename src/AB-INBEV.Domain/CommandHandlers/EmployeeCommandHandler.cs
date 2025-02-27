@@ -13,7 +13,7 @@ namespace AB_INBEV.Domain.CommandHandlers
         IRequestHandler<UpdateEmployeeCommand, bool>,
         IRequestHandler<RemoveEmployeeCommand, bool>
     {
-        private readonly IEmployeeRepository _customerRepository;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly IMediatorHandler Bus;
 
         public EmployeeCommandHandler(IEmployeeRepository customerRepository,
@@ -21,34 +21,34 @@ namespace AB_INBEV.Domain.CommandHandlers
                                       IMediatorHandler bus,
                                       INotificationHandler<DomainNotification> notifications) : base(uow, bus, notifications)
         {
-            _customerRepository = customerRepository;
+            _employeeRepository = customerRepository;
             Bus = bus;
         }
 
-        public Task<bool> Handle(RegisterNewEmployeeCommand message, CancellationToken cancellationToken)
+        public async Task<bool> Handle(RegisterNewEmployeeCommand message, CancellationToken cancellationToken)
         {
             if (!message.IsValid())
             {
                 NotifyValidationErrors(message);
-                return Task.FromResult(false);
+                return await Task.FromResult(false);
             }
 
             var employee = new Employee(Guid.NewGuid(), message.FirstName, message.LastName, message.Email, message.Document, message.BirthDate, message.Phones);
 
-            if (_customerRepository.GetByEmail(employee.Email) != null)
+            if (await _employeeRepository.GetByEmail(employee.Email) is not null)
             {
-                Bus.RaiseEvent(new DomainNotification(message.MessageType, "The customer e-mail has already been taken."));
-                return Task.FromResult(false);
+                await Bus.RaiseEvent(new DomainNotification(message.MessageType, "The customer e-mail has already been taken."));
+                return await Task.FromResult(false);
             }
 
-            _customerRepository.Add(employee);
+            await _employeeRepository.Add(employee);
 
             if (Commit())
             {
-                Bus.RaiseEvent(new EmployeeRegisteredEvent(employee.Id, employee.FirstName, employee.Email, employee.BirthDate));
+                await Bus.RaiseEvent(new EmployeeRegisteredEvent(employee.Id, employee.FirstName, employee.Email, employee.BirthDate));
             }
 
-            return Task.FromResult(true);
+            return await Task.FromResult(true);
         }
 
         public async Task<bool> Handle(UpdateEmployeeCommand message, CancellationToken cancellationToken)
@@ -60,7 +60,7 @@ namespace AB_INBEV.Domain.CommandHandlers
             }
 
             var employee = new Employee(message.Id, message.FirstName, message.LastName, message.Email, message.Document, message.BirthDate, message.Phones);
-            var existingCustomer = await _customerRepository.GetByEmail(employee.Email);
+            var existingCustomer = await _employeeRepository.GetByEmail(employee.Email);
 
             if (existingCustomer != null && existingCustomer.Id != employee.Id)
             {
@@ -71,7 +71,7 @@ namespace AB_INBEV.Domain.CommandHandlers
                 }
             }
 
-            _customerRepository.Update(employee);
+            _employeeRepository.Update(employee);
 
             if (Commit())
             {
@@ -81,27 +81,27 @@ namespace AB_INBEV.Domain.CommandHandlers
             return await Task.FromResult(true);
         }
 
-        public Task<bool> Handle(RemoveEmployeeCommand message, CancellationToken cancellationToken)
+        public async Task<bool> Handle(RemoveEmployeeCommand message, CancellationToken cancellationToken)
         {
             if (!message.IsValid())
             {
                 NotifyValidationErrors(message);
-                return Task.FromResult(false);
+                return await Task.FromResult(false);
             }
 
-            _customerRepository.Remove(message.Id);
+            await _employeeRepository.Remove(message.Id);
 
             if (Commit())
             {
                 Bus.RaiseEvent(new EmployeeRemovedEvent(message.Id));
             }
 
-            return Task.FromResult(true);
+            return await Task.FromResult(true);
         }
 
         public void Dispose()
         {
-            _customerRepository.Dispose();
+            _employeeRepository.Dispose();
         }
     }
 }
