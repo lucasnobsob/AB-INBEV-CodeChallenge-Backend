@@ -22,7 +22,7 @@ namespace AB_INBEV.Domain.Validations
             RuleFor(c => c.BirthDate)
                 .NotEmpty()
                 .Must(HaveMinimumAge)
-                .WithMessage("The customer must have 18 years or more");
+                .WithMessage("The employee must have 18 years or more");
         }
 
         protected void ValidateDocument()

@@ -16,12 +16,12 @@ namespace AB_INBEV.Domain.CommandHandlers
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IMediatorHandler Bus;
 
-        public EmployeeCommandHandler(IEmployeeRepository customerRepository,
+        public EmployeeCommandHandler(IEmployeeRepository employeeRepository,
                                       IUnitOfWork uow,
                                       IMediatorHandler bus,
                                       INotificationHandler<DomainNotification> notifications) : base(uow, bus, notifications)
         {
-            _employeeRepository = customerRepository;
+            _employeeRepository = employeeRepository;
             Bus = bus;
         }
 
@@ -37,7 +37,7 @@ namespace AB_INBEV.Domain.CommandHandlers
 
             if (await _employeeRepository.GetByEmail(employee.Email) is not null)
             {
-                await Bus.RaiseEvent(new DomainNotification(message.MessageType, "The customer e-mail has already been taken."));
+                await Bus.RaiseEvent(new DomainNotification(message.MessageType, "The employee e-mail has already been taken."));
                 return await Task.FromResult(false);
             }
 
@@ -66,7 +66,7 @@ namespace AB_INBEV.Domain.CommandHandlers
             {
                 if (!existingCustomer.Equals(employee))
                 {
-                    Bus.RaiseEvent(new DomainNotification(message.MessageType, "The customer e-mail has already been taken."));
+                    Bus.RaiseEvent(new DomainNotification(message.MessageType, "The employee e-mail has already been taken."));
                     return await Task.FromResult(false);
                 }
             }

@@ -19,12 +19,12 @@ namespace AB_INBEV.Application.Services
         private readonly IMediatorHandler Bus;
 
         public EmployeeAppService(IMapper mapper,
-                                  IEmployeeRepository customerRepository,
+                                  IEmployeeRepository employeeRepository,
                                   IMediatorHandler bus,
                                   IEventStoreRepository eventStoreRepository)
         {
             _mapper = mapper;
-            _employeeRepository = customerRepository;
+            _employeeRepository = employeeRepository;
             Bus = bus;
             _eventStoreRepository = eventStoreRepository;
         }
@@ -47,15 +47,15 @@ namespace AB_INBEV.Application.Services
             return _mapper.Map<EmployeeViewModel>(employee);
         }
 
-        public async Task Register(EmployeeViewModel customerViewModel)
+        public async Task Register(EmployeeViewModel employeeViewModel)
         {
-            var registerCommand = _mapper.Map<RegisterNewEmployeeCommand>(customerViewModel);
+            var registerCommand = _mapper.Map<RegisterNewEmployeeCommand>(employeeViewModel);
             await Bus.SendCommand(registerCommand);
         }
 
-        public async Task Update(EmployeeViewModel customerViewModel)
+        public async Task Update(EmployeeViewModel employeeViewModel)
         {
-            var updateCommand = _mapper.Map<UpdateEmployeeCommand>(customerViewModel);
+            var updateCommand = _mapper.Map<UpdateEmployeeCommand>(employeeViewModel);
             await Bus.SendCommand(updateCommand);
         }
 
